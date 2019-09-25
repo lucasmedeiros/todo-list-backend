@@ -11,6 +11,7 @@ routes.get('/', (req, res) => {
   return res.json({message});
 });
 routes.get('/users/:id', authorize(), UserController.get);
+// routes.get('/tasks', authorize(), TaskController.get);
 
 routes.post('/users', UserController.store);
 routes.post('/users/authenticate', UserController.authenticate);

@@ -4,7 +4,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import routes from './routes';
 import config from './config';
-import { User, Task } from './models';
 import { errorHandler } from './helpers';
 
 const { baseUrl, port } = config.server;
@@ -16,16 +15,18 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(routes);
 server.use(errorHandler);
 
-User.sync()
-  .then(() => {
-    console.log('Table User created.');
-    Task.sync()
-      .then(() => {
-        console.log('Table Task created.');
-        server.listen({port}, () => {
-          console.log(`Server listening on http://${baseUrl}:${port}`);
-        });
-      })
-      .catch(err => console.error("Uh-oh, couldn't create table Task.", err.message));
-  })
-  .catch(err => console.error("Uh-oh, couldn't create table User.", err.message));
+server.listen({port}, () => {
+  console.log(`Server listening on http://${baseUrl}:${port}`);
+});
+
+// User.sync()
+//   .then(() => {
+//     console.log('Table User created.');
+//     Task.sync()
+//       .then(() => {
+//         console.log('Table Task created.');
+        
+//       })
+//       .catch(err => console.error("Uh-oh, couldn't create table Task.", err.message));
+//   })
+//   .catch(err => console.error("Uh-oh, couldn't create table User.", err.message));
