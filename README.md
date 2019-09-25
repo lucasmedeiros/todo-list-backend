@@ -22,7 +22,7 @@ Agora, na pasta raiz desse projeto, você deve criar um arquivo com variáveis d
 
 As variáveis disponíveis são as seguintes:
 
-```md
+```
 - MYSQL_DATABASE = nome do esquema relacional que criou [OBRIGATÓRIO]
 - MYSQL_USER = nome de seu usuário do MySQL [OBRIGATÓRIO]
 - MYSQL_PASSWORD = senha de seu usuário do MySQL [OBRIGATÓRIO]
