@@ -5,14 +5,16 @@ import bodyParser from 'body-parser';
 import routes from './routes';
 import config from './config';
 import { User, Task } from './models';
+import { errorHandler } from './helpers';
 
-const server = express();
 const { baseUrl, port } = config.server;
+const server = express();
 
 server.use(cors());
 server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.urlencoded({ extended: false }));
 server.use(routes);
+server.use(errorHandler);
 
 User.sync()
   .then(() => {
