@@ -1,6 +1,6 @@
 import express from 'express';
 import utils from './utils';
-import { UserController } from './controllers';
+import { UserController, TaskController } from './controllers';
 import { authorize } from './helpers';
 
 const routes = express.Router();
@@ -14,5 +14,6 @@ routes.get('/users/:id', authorize(), UserController.get);
 
 routes.post('/users', UserController.store);
 routes.post('/users/authenticate', UserController.authenticate);
+routes.post('/tasks', authorize(), TaskController.store);
 
 export default routes;
