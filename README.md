@@ -65,7 +65,3 @@ node build/index.js
 ```
 
 Agora, o servidor estará rodando perfeitamente em sua máquina.
-
-## Endpoints
-
-
