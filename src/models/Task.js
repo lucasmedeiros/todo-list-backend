@@ -10,14 +10,6 @@ const Task = database.sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    task_owner: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'TB_USERS',
-        key: 'user_id',
-      },
-    },
     task_name: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -28,15 +20,9 @@ const Task = database.sequelize.define(
       allowNull: false,
       defaultValue: '',
     },
-    task_priority: {
-      type: Sequelize.SMALLINT,
-      allowNull: false,
-      defaultValue: 1,
-    },
-    task_finished: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-      defaultValue: 0,
+    task_status: {
+      type: Sequelize.ENUM,
+      values: ['active', 'pending', 'finished'],
     },
   },
   {
@@ -44,6 +30,7 @@ const Task = database.sequelize.define(
   },
 );
 
-Task.hasMany(User);
+User.hasMany(Task);
+Task.belongsTo(User);
 
 export default Task;
