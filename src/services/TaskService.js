@@ -2,24 +2,31 @@ import { Task } from '../models';
 
 const statuses = ['active', 'pending', 'finished'];
 
-async function save({ name, description, status='active' }, user_id) {
+function checkStatus(status) {
+  return new Promise((resolve, reject) => {
+    if (!statuses.includes(status))
+      reject(new Error(`Invalid status: '${status}'`));
+    resolve();
+  });
+}
+
+async function save({ name, description, status='active' }, userId) {
   if (!name)
     throw new Error('Task name field not provided');
     
   if (!description)
     throw new Error('Task description field not provided');
 
-  if (!user_id)
-    throw new Error('User_id from task owner not provided');
+  if (!userId)
+    throw new Error('Task owner user_id not provided');
   
-  if (!(statuses.includes(status)))
-    throw new Error('Invalid status');
+  await checkStatus(status).catch(err => { throw err; });
   
   const task = await Task.create({
     task_name: name,
     task_description: description,
     task_status: status,
-    TBUSERUserId: user_id,
+    TBUSERUserId: userId,
   }).catch(err => {
     throw new Error(`Couldn't store new Task: ${err.message}`);
   });
@@ -27,6 +34,50 @@ async function save({ name, description, status='active' }, user_id) {
   return task.dataValues;
 }
 
+async function getByUserId(userId) {
+  if (!userId)
+    throw new Error('Task owner user_id not provided');
+  
+  const resultTasks = await Task.findAll({
+    where: {
+      TBUSERUserId: userId,
+    }
+  }).catch(err => {
+    throw new Error(`Couldn't find task: ${err.message}`);
+  });
+
+  const userTasks = resultTasks.map(task => task.dataValues);
+  return userTasks;
+}
+
+async function updateTaskStatus(taskId, status, userId) {
+  if (!taskId)
+    throw new Error('Task id field not provided');
+  
+  if (!status)
+    throw new Error('New task status not provided');
+  
+  if (!userId)
+    throw new Error('Task owner user_id not provided');
+  
+  await checkStatus(status).catch(err => { throw err; });
+  
+  const updatedTask = await Task.update({
+    task_status: status
+  }, {
+    where: {
+      task_id: taskId,
+      TBUSERUserId: userId,
+    }
+  }).catch(err => {
+    throw new Error(`Couldn't update task: ${err.message}`);
+  });
+
+  return updatedTask;
+}
+
 export default {
   save,
+  getByUserId,
+  updateTaskStatus,
 };
