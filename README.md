@@ -45,7 +45,7 @@ git clone https://github.com/lucasmedeiros/todo-list-backend.git
 cd todo-list-backend
 ```
 
-Agora, dentro da pasta, você deve executar comandos do gerenciador de dependências [yarn](https://yarnpkg.com/lang/en/) (caso não possua instalado em sua máquina, deverá instalá-lo). Para instalar todas as dependências do Node que o projeto utiliza, rode o comando:
+Agora, dentro da pasta, você deve executar comandos do gerenciador de dependências [yarn](https://yarnpkg.com/lang/en/) (caso não possua em sua máquina, deverá instalá-lo). Para instalar todas as dependências do Node que o projeto utiliza, rode o comando:
 
 ```zsh
 yarn install
