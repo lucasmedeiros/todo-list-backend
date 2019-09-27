@@ -13,15 +13,15 @@ function checkStatus(status) {
 async function save({ name, description, status='active' }, userId) {
   if (!name)
     throw new Error('Task name field not provided');
-    
+
   if (!description)
     throw new Error('Task description field not provided');
 
   if (!userId)
     throw new Error('Task owner user_id not provided');
-  
+
   await checkStatus(status).catch(err => { throw err; });
-  
+
   const task = await Task.create({
     task_name: name,
     task_description: description,
@@ -37,7 +37,7 @@ async function save({ name, description, status='active' }, userId) {
 async function getByUserId(userId) {
   if (!userId)
     throw new Error('Task owner user_id not provided');
-  
+
   const resultTasks = await Task.findAll({
     where: {
       TBUSERUserId: userId,
@@ -53,15 +53,15 @@ async function getByUserId(userId) {
 async function updateTaskStatus(taskId, status, userId) {
   if (!taskId)
     throw new Error('Task id field not provided');
-  
+
   if (!status)
     throw new Error('New task status not provided');
-  
+
   if (!userId)
     throw new Error('Task owner user_id not provided');
-  
+
   await checkStatus(status).catch(err => { throw err; });
-  
+
   const updatedTask = await Task.update({
     task_status: status
   }, {
@@ -73,7 +73,7 @@ async function updateTaskStatus(taskId, status, userId) {
     throw new Error(`Couldn't update task: ${err.message}`);
   });
 
-  return updatedTask;
+  return {taskId, updatedTask};
 }
 
 export default {

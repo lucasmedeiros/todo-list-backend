@@ -6,6 +6,12 @@ import { User } from '../models';
 const { secret } = config.jwt;
 
 async function authenticate({ username, password }) {
+  if (!username)
+    throw new Error('Username field not provided');
+  
+  if(!password)
+    throw new Error('Password field not provided')
+
   const user = await User.findOne({
     where: {
       user_username: username,
